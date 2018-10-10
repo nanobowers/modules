@@ -3832,8 +3832,9 @@ proc runModulerc {} {
 # for each module loaded or unloaded in order to be able to restore the
 # correct set in case of failure
 proc pushSettings {} {
-   foreach var {env g_clearedEnvVars g_Aliases g_stateEnvVars g_stateAliases g_stateFunctions g_Functions\
-      g_newXResources g_delXResources} {
+   foreach var {env g_clearedEnvVars g_Aliases g_stateEnvVars g_stateAliases \
+                    g_stateFunctions g_Functions \
+                    g_newXResources g_delXResources} {
       eval "lappend ::g_SAVE_$var \[array get ::$var\]"
    }
    # save non-array variable and indication if it was set
@@ -3847,7 +3848,8 @@ proc pushSettings {} {
 }
 
 proc popSettings {} {
-   foreach var {env g_clearedEnvVars g_Aliases g_stateEnvVars g_stateAliases g_stateFunctions g_Functions\
+   foreach var {env g_clearedEnvVars g_Aliases g_stateEnvVars g_stateAliases \
+                    g_stateFunctions g_Functions \
       g_newXResources g_delXResources g_changeDir g_stdoutPuts\
       g_return_text} {
       eval "set ::g_SAVE_$var \[lrange \$::g_SAVE_$var 0 end-1\]"
@@ -3855,8 +3857,9 @@ proc popSettings {} {
 }
 
 proc restoreSettings {} {
-   foreach var {env g_clearedEnvVars g_Aliases g_stateEnvVars g_stateAliases g_stateFunctions g_Functions\
-      g_newXResources g_delXResources} {
+   foreach var {env g_clearedEnvVars g_Aliases g_stateEnvVars g_stateAliases \
+                    g_stateFunctions g_Functions \
+                    g_newXResources g_delXResources} {
       # clear current $var arrays
       if {[info exists ::$var]} {
          eval "unset ::$var; array set ::$var {}"
@@ -4069,12 +4072,10 @@ proc renderSettings {} {
             set val $::g_Functions($funcname)
             switch -- $::g_shellType {
                {sh} {
-                  #set val [charEscaped $val]
-		  puts stdout "$funcname () { $val ;} ; export $funcname;"
+                  puts stdout "$funcname () { $val ;} ; export $funcname;"
                }
                {fish} {
-                  #set val [charEscaped $val]
-		  puts stdout "function $funcname ; $val ; end ;"
+                  puts stdout "function $funcname ; $val ; end ;"
                }
             }
          }
